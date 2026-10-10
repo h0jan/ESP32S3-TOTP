@@ -1,20 +1,30 @@
 #pragma once
+
+#include "Activities.h"
 #include "Battery.h"
 #include "Button.h"
-#include "WiFiCtrl.h"
-#include "NTP.h"
 #include "Display.h"
+#include "NTP.h"
+#include "WiFiCtrl.h"
 
 namespace Configuration {
 
 //the TOTP secret 
-//(TOTP library requires the secret not to be a constant)
-uint8_t TOTPsecret[20] 
-{ 
-    0x4a, 0x75, 0x73, 0x74, 0x20, 
-    0x61, 0x20, 0x64, 0x75, 0x6d, 
-    0x6d, 0x79, 0x20, 0x6B, 0x65, 
-    0x79, 0x20, 0x3a, 0x28, 0x20
+constexpr const char* secret { "VS6PDA6Y6W54IAY4VVLDF7RZBPB3KL26" };
+
+
+//WiFi configuration
+constexpr WiFiConfig wifi {
+    .ssid = "SSID" ,            //SSID
+    .password = "PASSWORD" ,    //password
+    .connectionTimeout = 10000  //maximum connecting time (ms)
+};
+
+//NTP configuration
+constexpr NTPConfig ntp {
+    .timeZone = "GMT0",             //time zone   https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv
+    .ntpServer = "pool.ntp.org ",   //address of NTP server    
+    .responseTimeout = 10000        //maximum waiting time for a response from the server (ms)
 };
 
 //button configuration
@@ -32,20 +42,6 @@ constexpr BatteryConfig battery {
     .maximumVoltage = 4200          //voltage of fully charged battery (the charge controller stops charging at 4200 mV)
 };
 
-//WiFi configuration
-constexpr WiFiConfig wifi {
-    .ssid = "SSID" ,            //SSID
-    .password = "PASSWORD" ,    //password
-    .connectionTimeout = 10000  //maximum connecting time (ms)
-};
-
-//NTP configuration
-constexpr NTPConfig ntp {
-    .timeZone = "CET-1CEST,M3.5.0,M10.5.0/3",   //time zone   https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv
-    .ntpServer = "ntp.cesnet.cz",               //address of NTP server    
-    .responseTimeout = 10000                    //maximum waiting time for a response from the server (ms)
-};
-
 //display configuration
 constexpr DisplayConfig display {
     .address = 0x3C,        //I2C display address
@@ -53,9 +49,11 @@ constexpr DisplayConfig display {
     .animationSpeed = 2     //speed of the display opening/closing animation (0 - 5)
 };
 
-//action times configuration
-constexpr uint16_t TOTPHoldMs { 750 };          //duration of a button press for showing the main screen (ms)
-constexpr uint16_t NTPSyncHoldMs { 7000 };      //duration of a button press for synchronizing the time (ms)
-constexpr uint16_t sleepTimeoutMs { 7000 };     //duration for which to keep the device awake after releasing the button (ms)
+//activity time threshold configuration
+constexpr ActivityConfig activity {
+    .totpHoldMs = 1000,          //duration of a button press for showing the main screen (ms)
+    .ntpSyncHoldMs = 7000,      //duration of a button press for synchronizing the time (ms)
+    .sleepTimeoutMs = 7000      //duration for which to keep the device awake after releasing the button (ms)
+};
 
 }

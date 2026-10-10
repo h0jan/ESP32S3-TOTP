@@ -1,45 +1,43 @@
+#pragma once
+#include "infotext-declarations.h"
 
-namespace info {
-
-const char* rtcInitFailed {
+const char* info::rtcInitFailed {
     "> Chyba inicializace\n" 
-    "  RTC!"
+    "  externich hodin!"
 };
 
-const char* rtcLostPower {
-    "> RTC ztratilo\n"
-    "  napajeni, nutno\n"
-    "  nastavit cas!"
+const char* info::rtcLostPower {
+    "> Externi hodiny\n"
+    "  ztratily napajeni!\n"
+    "  Aktualizujte cas!"
 };
 
-const char* updateStarted {
+const char* info::updateStarted {
     "> Zahajeni\n"
     "  aktualizace casu!"
 };
 
-const char* connectingWifi {
+const char* info::connectingWifi {
     "> Pripojovani\n"
     "  k WiFi"
 };
 
-const char* wifiTimeout {
+const char* info::wifiTimeout {
     "> Pripojeni k WiFi\n"
     "  se nezdarilo!"
 };
 
-const char* ntpWaiting {
+const char* info::ntpWaiting {
     "> Cekani na odezvu\n"
     "  NTP serveru"
 };
 
-const char* ntpTimeout {
+const char* info::ntpTimeout {
     "> Zadna odpoved NTP\n"
     "  serveru!"
 };
 
-const char* updateSuccessful {
+const char* info::updateSuccessful {
     "> Aktualizace casu\n"
     "  uspesna!"
 };
-
-}

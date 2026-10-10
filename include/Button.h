@@ -1,79 +1,48 @@
 #pragma once
 #include <Arduino.h>
 
+//configuration constants (set in configuration.h)
 struct ButtonConfig {
-    gpio_num_t pin;
-    uint32_t minValidDuration;
+    const gpio_num_t pin;
+    const uint32_t minValidDuration;
 };
+
+//press is represented as logic 0, release as logic 1
+namespace ButtonState {
+enum {
+    Pressed,
+    Released
+};
+}
+
 
 class Button {
 private:
 
     const ButtonConfig& m_config;
 
-    bool m_firstRun { true };
     bool m_lastState {};
     bool m_lastValidState { true };
+
     uint32_t m_stateStartMillis {};
     uint32_t m_stateDuration {};
     uint32_t m_validStateStartMillis {};
     uint32_t m_validStateDuration {};
 
+    //updates the state and timers
+    void updateStates();
+
 public:
+    Button(const ButtonConfig&);
 
-    Button(const ButtonConfig& config): m_config { config } 
-    { 
-        //set the button pin as input
-        pinMode (m_config.pin, INPUT_PULLUP);
-    };
+    //returns button state determined at the time of last "update()" call
+    //bool getState();
 
-    //press is represented as logic 0, release as logic 1
-    enum ButtonState {
-        Pressed,
-        Released
-    };
+    void getStates(bool& state, uint32_t& duration);
 
-    void update() {
+    //returns state duration determined at the time of last "update() call"
+    //uint32_t getDuration();
 
-        //timers are cleared at the first call
-        if(m_firstRun) {
-            clearTimers();
-            m_firstRun = false;
-        }
-
-        bool currentState { digitalRead(m_config.pin) };
-        uint32_t currentMillis { millis() };
-
-        //did the button state change?
-        if(currentState != m_lastState) {
-
-            //if so, we save the state and it's starting time
-            m_lastState = currentState;
-            m_stateStartMillis = currentMillis;
-        }
-
-        //calculation of the state duration
-        m_stateDuration = currentMillis - m_stateStartMillis;
-
-        //has the duration reached the validation threshold?
-        if(m_stateDuration >= m_config.minValidDuration)
-        {
-            //if so, we make the state valid
-            m_lastValidState = m_lastState;
-            m_validStateStartMillis = m_stateStartMillis;
-        }
-
-        //calculation of the valid state duration
-        m_validStateDuration = currentMillis - m_validStateStartMillis;
-    }
-
-    void clearTimers() {
-        uint32_t nowMillis { millis() };
-        m_stateStartMillis = nowMillis;
-        m_validStateStartMillis = nowMillis;
-    }
-
-    bool getState() { return m_lastValidState; }
-    uint32_t getDuration() { return m_validStateDuration; }
-
+    //resets the state timers (state duration becomes 0 at the moment of calling)
+    void clearTimers();
 };

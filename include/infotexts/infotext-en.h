@@ -1,44 +1,44 @@
+#pragma once
+#include "infotext-declarations.h"
 
-namespace info {
-
-const char* rtcInitFailed {
-    "> RTC initilaization\n" 
+const char* info::rtcInitFailed {
+    "> Initialization of\n" 
+    "  the external clock \n"
     "  failed!"
 };
 
-const char* rtcLostPower {
-    "> RTC lost power,\n"
-    "  update your time!"
+const char* info::rtcLostPower {
+    "> The external clock\n"
+    "  lost power, update\n"
+    "  your time!"
 };
 
-const char* updateStarted {
+const char* info::updateStarted {
     "> Time update\n"
     "  started!"
 };
 
-const char* connectingWifi {
+const char* info::connectingWifi {
     "> Connecting to\n"
     "  WiFi"
 };
 
-const char* wifiTimeout {
+const char* info::wifiTimeout {
     "> Connection to\n"
     "  WiFi failed!"
 };
 
-const char* ntpWaiting {
+const char* info::ntpWaiting {
     "> Waiting for NTP\n"
     "  server response"
 };
 
-const char* ntpTimeout {
+const char* info::ntpTimeout {
     "> NTP server did not\n"
     "  respond!"
 };
 
-const char* updateSuccessful {
+const char* info::updateSuccessful {
     "> Time update was\n"
     "  successful!"
 };
-
-}
