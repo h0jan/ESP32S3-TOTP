@@ -171,7 +171,7 @@ void updateTime() {
             return; 
         };
 
-    } while(status != wifiStatus::Connected);
+    } while(status != ntpStatus::Success);
 
 
     //clear the clock's synchronization status (= not synchronized)
