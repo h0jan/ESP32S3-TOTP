@@ -11,7 +11,7 @@
 - 2x Pushbutton (6x6x4,3mm)
 
 ## Wiring diagram
-![wiring diagram](images/wiring_diagram.png)
+![wiring diagram](images/wiring_diagram.jpg)
 
 ## Assembled parts
 
